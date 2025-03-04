@@ -1,0 +1,6 @@
+/dts-v1/;
+/plugin/;
+
+&mcu_spi0 {
+	status = "okay";
+};
