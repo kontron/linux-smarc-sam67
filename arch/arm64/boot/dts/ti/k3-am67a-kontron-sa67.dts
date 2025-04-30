@@ -285,16 +285,12 @@
 &cpsw_port1 {
 	phy-connection-type = "rgmii-id";
 	phy-handle = <&phy0>;
-	nvmem-cells = <&base_mac_address 0>;
-	nvmem-cell-names = "mac-address";
 	status = "okay";
 };
 
 &cpsw_port2 {
 	phy-connection-type = "rgmii-id";
 	phy-handle = <&phy1>;
-	nvmem-cells = <&base_mac_address 1>;
-	nvmem-cell-names = "mac-address";
 	status = "okay";
 };
 
