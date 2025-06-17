@@ -210,7 +210,6 @@
 		regulator-min-microvolt = <3300000>;
 		regulator-max-microvolt = <3300000>;
 		vin-supply = <&vcc_3p3_s5>;
-		regulator-boot-on;
 		enable-active-high;
 		interrupts-extended = <&main_gpio1 30 IRQ_TYPE_EDGE_FALLING>;
 		bootph-all;
@@ -222,10 +221,11 @@
 		regulator-min-microvolt = <1100000>;
 		regulator-max-microvolt = <1100000>;
 		vin-supply = <&vcc_1p1_s3>;
-		/* shared with V_0V75_0V85_CORE_S0 */
-		gpios = <&tps652g1 4 GPIO_ACTIVE_HIGH>;
 		regulator-always-on;
 		regulator-boot-on;
+		enable-active-high;
+		/* shared with V_0V75_0V85_CORE_S0 */
+		gpios = <&tps652g1 4 GPIO_ACTIVE_HIGH>;
 		bootph-all;
 	};
 
