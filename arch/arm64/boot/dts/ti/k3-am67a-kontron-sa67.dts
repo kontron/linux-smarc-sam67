@@ -440,6 +440,7 @@
 		compatible = "ti,tps652g1";
 		reg = <0x44>;
 		ti,primary-pmic;
+		ti,power-button;
 		system-power-controller;
 
 		gpio-controller;
