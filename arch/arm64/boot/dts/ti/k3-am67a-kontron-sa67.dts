@@ -1090,7 +1090,7 @@
 	pinctrl-names = "default";
 	pinctrl-0 = <&pcie0_rc_pins_default>;
 
-	reset-gpios = <&main_gpio1 15 GPIO_ACTIVE_LOW>;
+	reset-gpios = <&main_gpio1 15 GPIO_ACTIVE_HIGH>;
 	phys = <&serdes1_pcie>;
 	phy-names = "pcie-phy";
 	status = "okay";
