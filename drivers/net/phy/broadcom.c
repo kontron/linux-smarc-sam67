@@ -516,6 +516,12 @@ static int bcm54xx_config_init(struct phy_device *phydev)
 
 	bcm54xx_phydsp_config(phydev);
 
+
+#define BCM54XX_SHD_LED_CTRL 0x09
+#define BCM54XX_TOP_MISC_PIN_CTRL (MII_BCM54XX_EXP_SEL_TOP + 0x07)
+
+
+
 	/* For non-SFP setups, encode link speed into LED1 and LED3 pair
 	 * (green/amber).
 	 * Also flash these two LEDs on activity. This means configuring
@@ -525,14 +531,14 @@ static int bcm54xx_config_init(struct phy_device *phydev)
 	 * these settings will cause LOS to malfunction.
 	 */
 	if (!phy_on_sfp(phydev)) {
-		val = BCM54XX_SHD_LEDS1_LED1(BCM_LED_SRC_MULTICOLOR1) |
-			BCM54XX_SHD_LEDS1_LED3(BCM_LED_SRC_MULTICOLOR1);
-		bcm_phy_write_shadow(phydev, BCM54XX_SHD_LEDS1, val);
+		/* enable link/activity for ACTIVITY# */
+		bcm_phy_write_shadow(phydev, BCM54XX_SHD_LED_CTRL, 0x18);
 
-		val = BCM_LED_MULTICOLOR_IN_PHASE |
-			BCM54XX_SHD_LEDS1_LED1(BCM_LED_MULTICOLOR_LINK_ACT) |
-			BCM54XX_SHD_LEDS1_LED3(BCM_LED_MULTICOLOR_LINK_ACT);
-		bcm_phy_write_exp(phydev, BCM_EXP_MULTICOLOR, val);
+		/* enable ACTIVITY# on LED3 */
+		bcm_phy_write_shadow(phydev, BCM54XX_SHD_LEDS2, 0x63);
+
+		/* enable LOM mode for LED1/LED2 */
+		bcm_phy_write_exp(phydev, BCM54XX_TOP_MISC_PIN_CTRL, 0x70);
 	}
 
 	bcm54xx_ptp_config_init(phydev);
