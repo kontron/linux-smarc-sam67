@@ -1,0 +1,150 @@
+// SPDX-License-Identifier: GPL-2.0-only OR MIT
+/*
+ * DisplayPort bridge and DP0 output.
+ *
+ * Copyright (c) 2025 Kontron Europe GmbH
+ */
+
+/dts-v1/;
+/plugin/;
+
+#include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/interrupt-controller/irq.h>
+
+&{/} {
+	connector-2 {
+		compatible = "dp-connector";
+		label = "DP_0";
+		type = "full-size";
+		hpd-gpios = <&edp_bridge 2 GPIO_ACTIVE_HIGH>;
+
+		port {
+			dp_connector_in: endpoint {
+				remote-endpoint = <&edp_bridge_out>;
+			};
+		};
+	};
+
+	clk_12mhz: clock-12000000 {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <12000000>;
+	};
+};
+
+&dphy_tx0 {
+	status = "okay";
+};
+
+&dsi0 {
+	status = "okay";
+	#address-cells = <1>;
+	#size-cells = <0>;
+
+	ports {
+		#address-cells = <1>;
+		#size-cells = <0>;
+
+		port@0 {
+			reg = <0>;
+
+			dsi0_out: endpoint {
+				remote-endpoint = <&edp_bridge_in>;
+			};
+		};
+
+		port@1 {
+			reg = <1>;
+
+			dsi0_in: endpoint {
+				remote-endpoint = <&dss1_dpi1_out>;
+			};
+		};
+	};
+};
+
+&dss1 {
+	status = "okay";
+	assigned-clocks = <&k3_clks 232 0>,
+			  <&k3_clks 232 4>;
+	assigned-clock-parents = <&k3_clks 232 1>,
+				 <&k3_clks 232 5>;
+};
+
+&dss1_ports {
+	#address-cells = <1>;
+	#size-cells = <0>;
+
+	/* DSS1-VP1: DSI Output */
+	port@1 {
+		reg = <1>;
+
+		dss1_dpi1_out: endpoint {
+			remote-endpoint = <&dsi0_in>;
+		};
+	};
+};
+
+&main_i2c0 {
+	#address-cells = <1>;
+	#size-cells = <0>;
+
+	edp_bridge: bridge@2c {
+		compatible = "ti,sn65dsi86";
+		reg = <0x2c>;
+
+		pinctrl-names = "default";
+		pinctrl-0 = <&edp_bridge_pins_default>;
+
+		interrupts-extended = <&main_gpio0 38 IRQ_TYPE_EDGE_FALLING>;
+
+		enable-gpios = <&main_gpio0 37 GPIO_ACTIVE_HIGH>;
+
+		gpio-controller;
+		#gpio-cells = <2>;
+		gpio-line-names = "", "EDP_BRIDGE_HDP", "", "";
+
+		vpll-supply = <&vcc_1p8_s0>;
+		vccio-supply = <&vcc_1p8_s0>;
+		vcca-supply = <&vcc_1p2_s0>;
+		vcc-supply = <&vcc_1p2_s0>;
+
+		clocks = <&clk_12mhz>;
+		clock-names = "refclk";
+
+		no-hpd;
+
+		ports {
+			#address-cells = <1>;
+			#size-cells = <0>;
+
+			port@0 {
+				reg = <0>;
+				edp_bridge_in: endpoint {
+					remote-endpoint = <&dsi0_out>;
+				};
+			};
+
+			port@1 {
+				reg = <1>;
+				edp_bridge_out: endpoint {
+					remote-endpoint = <&dp_connector_in>;
+				};
+			};
+		};
+
+		aux-bus {
+			edp_panel: panel {
+				power-supply = <&vcc_lcd0_panel>;
+				backlight = <&lcd0_backlight>;
+				hpd-gpios = <&edp_bridge 2 GPIO_ACTIVE_HIGH>;
+				status = "disabled";
+
+				port {
+					edp_panel_in: endpoint {
+					};
+				};
+			};
+		};
+	};
+};
