@@ -102,7 +102,8 @@
 
 		gpio-controller;
 		#gpio-cells = <2>;
-		gpio-line-names = "", "EDP_BRIDGE_HDP", "", "";
+		gpio-line-names = "EDP_BRIDGE_RSVD0", "EDP_BRIDGE_HDP",
+			"EDP_BRIDGE_RSVD2", "EDP_BRIDGE_RSVD3";
 
 		vpll-supply = <&vcc_1p8_s0>;
 		vccio-supply = <&vcc_1p8_s0>;
