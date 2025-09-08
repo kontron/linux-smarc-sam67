@@ -134,7 +134,8 @@ dtb-$(CONFIG_ARCH_K3) += k3-j721s2-evm-pcie1-ep.dtbo
 
 # Boards with J722s SoC
 k3-am67a-kontron-sa67-dtbs := k3-am67a-kontron-sa67-base.dtb k3-am67a-kontron-sa67-dp0.dtbo \
-	k3-am67a-kontron-sa67-rtc-rv8263.dtbo k3-am67a-kontron-sa67-gbe1.dtbo
+	k3-am67a-kontron-sa67-rtc-rv8263.dtbo k3-am67a-kontron-sa67-gbe1.dtbo \
+	k3-am67a-kontron-sa67-gpios.dtbo
 k3-am67a-kontron-sa67-ads2-dtbs := k3-am67a-kontron-sa67.dtb k3-am67a-kontron-sa67-ads2.dtbo
 dtb-$(CONFIG_ARCH_K3) += k3-am67a-beagley-ai.dtb
 dtb-$(CONFIG_ARCH_K3) += k3-am67a-kontron-sa67.dtb
@@ -147,6 +148,7 @@ dtb-$(CONFIG_ARCH_K3) += k3-am67a-kontron-sa67-ads2.dtbo
 dtb-$(CONFIG_ARCH_K3) += k3-am67a-kontron-sa67-ads2-rev-a-fixups.dtbo
 dtb-$(CONFIG_ARCH_K3) += k3-am67a-kontron-sa67-lvds-auo-p238han01.dtbo
 dtb-$(CONFIG_ARCH_K3) += k3-am67a-kontron-sa67-lvds0-evervision-vgg644804.dtbo
+dtb-$(CONFIG_ARCH_K3) += k3-am67a-kontron-sa67-gpios.dtbo
 dtb-$(CONFIG_ARCH_K3) += k3-j722s-evm.dtb
 dtb-$(CONFIG_ARCH_K3) += k3-j722s-evm-csi2-quad-rpi-cam-imx219.dtbo
 dtb-$(CONFIG_ARCH_K3) += k3-j722s-evm-csi2-quad-tevi-ov5640.dtbo
